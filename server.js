@@ -5,12 +5,15 @@ const io = require("socket.io")(server);
 const port = process.env.PORT || 4000;
 const { v4: uuidv4 } = require("uuid");
 const { ExpressPeerServer } = require("peer");
+const path = require("path");
 const peer = ExpressPeerServer(server, {
   debug: true,
 });
 app.use("/peerjs", peer);
 app.set("view engine", "ejs");
-app.use(express.static("public"));
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.send(uuidv4());
 });
